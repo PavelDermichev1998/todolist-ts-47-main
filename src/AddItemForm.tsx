@@ -9,7 +9,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
     const errorInputStyle = {border: '2ps solid red', outline: 'none'}
     const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setError(false)
         setTitle(e.currentTarget.value)
     }
@@ -34,7 +34,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
             <input
                 style={error ? errorInputStyle : undefined}
                 value={title}
-                onChange={onChangeHandler}
+                onChange={changeTitle}
                 onKeyPress={onKeyPressHandler}
                 placeholder='Enter your title...'
             />
