@@ -24,7 +24,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
     }
     const errorMessage = error ? <div style={{color: 'red'}}>Title is required</div> : null
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.charCode === 13) {
+        if (e.key === 'Enter') {
             addItem()
         }
     }
