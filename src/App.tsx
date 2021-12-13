@@ -28,8 +28,8 @@ function App() {
     const todoListID_1 = v1()
     const todoListID_2 = v1()
     const [todoLists, setTodoLists] = useState<Array<TodoListType>>([
-        {id: todoListID_1, title: '1What is this', filter: 'all'},
-        {id: todoListID_2, title: '2What is that', filter: 'all'}
+        {id: todoListID_1, title: 'What is learn', filter: 'all'},
+        {id: todoListID_2, title: 'What is buy', filter: 'all'}
     ])
     const [tasks, setTasks] = useState<TasksStateType>({
         [todoListID_1]: [

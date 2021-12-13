@@ -7,11 +7,11 @@
     margin-right: 50px;
 }
 
-.todolist {
+/*.todolist {
     border: 1px solid darkgray;
     border-radius: 5px;
     padding: 20px;
-}
+}*/
 
 .active-filter {
     background-color: aquamarine;
