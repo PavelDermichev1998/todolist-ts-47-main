@@ -1,11 +1,11 @@
-.App {
+/*.App {
     padding: 30px;
     display: flex;
 }
 
 .App > div {
     margin-right: 50px;
-}
+}*/
 
 /*.todolist {
     border: 1px solid darkgray;
@@ -13,15 +13,17 @@
     padding: 20px;
 }*/
 
-.active-filter {
+/*.active-filter {
     background-color: aquamarine;
-}
+}*/
 
 .is-done {
     opacity: 0.5;
 }
 
+/*
 .error {
     border: 2px solid red;
     outline: none;
 }
+*/
