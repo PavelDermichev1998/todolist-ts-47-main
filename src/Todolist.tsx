@@ -1,8 +1,8 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import {FilterValuesType, TaskType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
-import {Button, ButtonGroup, Checkbox, IconButton, List, ListItem, Typography} from "@material-ui/core";
+import {Button, Checkbox, IconButton, List, ListItem, Typography} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 
 
@@ -62,10 +62,6 @@ const Todolist = (props: TodoListPropsType) => {
     const onActiveClickHandler = () => props.changeFilter('active', props.id)
     const onCompletedClickHandler = () => props.changeFilter('completed', props.id)
     const changeTodoListTitle = (title: string) => props.changeTodoListTitle(title, props.id)
-
-    const allBtnClass = props.filter === 'all' ? 'active-filter' : ''
-    const activeBtnClass = props.filter === 'active' ? 'active-filter' : ''
-    const completedBtnClass = props.filter === 'completed' ? 'active-filter' : ''
 
     return (
         <div className="todolist">
