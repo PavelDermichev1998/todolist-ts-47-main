@@ -1,10 +1,24 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import './App.css';
 import Todolist from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
+import {
+    addTodoListAC,
+    changeTodoListFilterAC,
+    changeTodolistTitleAC,
+    removeTodoListAC,
+    todolistsReducer
+} from "./Components/store/todolists-reducer";
+import {
+    addTaskAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
+    tasksReducer
+} from "./Components/store/tasks-reducer";
 
 export type TaskType = {
     id: string
@@ -25,15 +39,15 @@ export type TasksStateType = {
 }
 
 
-function App() {
+function AppWithReducer() {
 //BLL
     const todoListID_1 = v1()
     const todoListID_2 = v1()
-    const [todoLists, setTodoLists] = useState<Array<TodoListType>>([
+    const [todoLists, dispatchToTodoLists] = useReducer(todolistsReducer, [
         {id: todoListID_1, title: 'What is learn', filter: 'all'},
         {id: todoListID_2, title: 'What is buy', filter: 'all'}
     ])
-    const [tasks, setTasks] = useState<TasksStateType>({
+    const [tasks, dispatchToTasks] = useReducer(tasksReducer, {
         [todoListID_1]: [
             {id: v1(), title: 'HTML', isDone: true},
             {id: v1(), title: 'CSS', isDone: true},
@@ -49,55 +63,34 @@ function App() {
     })
 
     const removeTask = (taskID: string, todoListID: string) => {
-        setTasks({
-            ...tasks,
-            [todoListID]: tasks[todoListID].filter(t => t.id !== taskID)
-        })
+        dispatchToTasks(removeTaskAC(taskID, todoListID));
     }
     const addTask = (title: string, todoListID: string) => {
-        const newTask: TaskType = {
-            id: v1(),
-            title: title,
-            isDone: false,
-        }
-        setTasks({
-            ...tasks,
-            [todoListID]: [newTask, ...tasks[todoListID]]
-        })
-        //берем все тудулисты, но к тудулисту с todoListID добавляем в его массив новую таску
-        //и добавляем все таски, которые были у тудулиста с этим айди
+        dispatchToTasks(addTaskAC(title,todoListID));
     }
     const changeTaskStatus = (taskID: string, isDone: boolean, todoListID: string) => {
-        setTasks({
-            ...tasks, [todoListID]: tasks[todoListID].map(t => t.id === taskID ? {...t, isDone} : t)
-        })
+        dispatchToTasks(changeTaskStatusAC(taskID,isDone,todoListID));
     };
     const changeTaskTitle = (taskID: string, title: string, todoListID: string) => {
-        setTasks({
-            ...tasks,
-            [todoListID]: tasks[todoListID].map(t => t.id === taskID ? {...t, title} : t)
-        })
+        dispatchToTasks(changeTaskTitleAC(taskID,title,todoListID));
+
     };
 
     const changeFilter = ( todoListID: string,filter: FilterValuesType) => {
-        setTodoLists(todoLists.map(tl => tl.id === todoListID ? {...tl, filter} : tl))
+        dispatchToTodoLists(changeTodoListFilterAC(todoListID,filter))
     }
     const changeTodoListTitle = (title: string, todoListID: string) => {
-        setTodoLists(todoLists.map(tl => tl.id === todoListID ? {...tl, title} : tl))
+        dispatchToTodoLists(changeTodolistTitleAC(title,todoListID))
     }
     const removeTodoList = (todoListID: string) => {
-        setTodoLists(todoLists.filter(tl => tl.id !== todoListID))
-        delete tasks[todoListID]
+        let action = removeTodoListAC(todoListID)
+        dispatchToTodoLists(action);
+        dispatchToTasks(action);
     }
     const addTodoList = (title: string) => {
-        const todoListID = v1()
-        const newTodoList: TodoListType = {
-            id: todoListID,
-            title,
-            filter: 'all'
-        }
-        setTodoLists([...todoLists, newTodoList])
-        setTasks({...tasks, [newTodoList.id]: []})
+        let action = addTodoListAC(title)
+        dispatchToTodoLists(action);
+        dispatchToTasks(action);
     }
 
 //UI
@@ -157,4 +150,4 @@ function App() {
     );
 }
 
-export default App;
+export default AppWithReducer;
