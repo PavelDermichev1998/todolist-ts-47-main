@@ -7,15 +7,22 @@ import {
 import {v1} from 'uuid';
 import {FilterValuesType, TodoListType} from "../../App";
 
-test('correct todolist should be removed', () => {
-    let todolistId1 = v1();
-    let todolistId2 = v1();
+let todolistId1: string;
+let todolistId2: string;
+let startState: Array<TodoListType>;
 
-    const startState: Array<TodoListType> = [
+
+beforeEach(() => {
+    todolistId1 = v1();
+    todolistId2 = v1();
+
+    startState = [
         {id: todolistId1, title: "What to learn", filter: "all"},
         {id: todolistId2, title: "What to buy", filter: "all"}
     ]
+})
 
+test('correct todolist should be removed', () => {
     const endState = todolistsReducer(startState, RemoveTodoListAC(todolistId1))
 
     expect(endState.length).toBe(1);

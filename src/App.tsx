@@ -68,12 +68,6 @@ function App() {
         //и добавляем все таски, которые были у тудулиста с этим айди
     }
     const changeTaskStatus = (taskID: string, isDone: boolean, todoListID: string) => {
-        /*const updatedTasks = tasks.map(t => {
-            if (t.id === taskID) {
-                 return {...t, isDone: isDone}
-             }
-                 return t
-           })*/
         setTasks({
             ...tasks, [todoListID]: tasks[todoListID].map(t => t.id === taskID ? {...t, isDone} : t)
         })
