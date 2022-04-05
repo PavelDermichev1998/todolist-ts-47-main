@@ -43,17 +43,12 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
                 helperText={errorMessage}
 
             />
-            {/*<input
-                style={error ? errorInputStyle : undefined}
-                placeholder='Enter your title...'
-            />*/}
             <IconButton onClick={addItem}
                         color={'primary'}
                         size={'small'}
             >
                 <AddBox fontSize={'large'}/>
             </IconButton>
-            {/*{errorMessage}*/}
         </div>
     )
 })
