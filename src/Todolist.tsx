@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {FilterValuesType, TaskType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -25,8 +25,7 @@ const Todolist = (props: TodoListPropsType) => {
 
     const tasksJSXElements = props.tasks.map(task => {
         const removeTask = () => props.removeTask(task.id, props.id)
-        const changeStatus =
-            (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(task.id, e.currentTarget.checked, props.id)
+        const changeStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(task.id, e.currentTarget.checked, props.id)
         const changeTitle = (title: string) => props.changeTaskTitle(task.id, title, props.id)
         return (
             <ListItem
@@ -38,8 +37,7 @@ const Todolist = (props: TodoListPropsType) => {
                     display: 'flex',
                     justifyContent: 'space-between',
                     padding: '0px'
-                }}
-            >
+                }}>
                 <Checkbox
                     size={'small'}
                     color={'primary'}
@@ -54,9 +52,9 @@ const Todolist = (props: TodoListPropsType) => {
             </ListItem>
         );
     });
-    const addTask = (title: string) => {
+    const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)
-    }
+    },[props.addTask, props.id])
 
     const onAllClickHandler = () => props.changeFilter(props.id,'all')
     const onActiveClickHandler = () => props.changeFilter( props.id,'active')
