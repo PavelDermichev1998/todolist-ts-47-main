@@ -21,45 +21,25 @@ type TodoListPropsType = {
 }
 
 
-const Todolist = (props: TodoListPropsType) => {
+export const Todolist = React.memo((props: TodoListPropsType) => {
+    console.log('asd')
 
-    const tasksJSXElements = props.tasks.map(task => {
-        const removeTask = () => props.removeTask(task.id, props.id)
-        const changeStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(task.id, e.currentTarget.checked, props.id)
-        const changeTitle = (title: string) => props.changeTaskTitle(task.id, title, props.id)
-        return (
-            <ListItem
-                disableGutters
-                divider
-                className={task.isDone ? 'is-done' : ''}
-                key={task.id}
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '0px'
-                }}>
-                <Checkbox
-                    size={'small'}
-                    color={'primary'}
-                    onChange={changeStatus}
-                    checked={task.isDone}
-                />
-
-                <EditableSpan title={task.title} setNewTitle={changeTitle}/>
-               <IconButton onClick={removeTask} size={'small'}>
-                   <Delete fontSize={'small'}/>
-               </IconButton>
-            </ListItem>
-        );
-    });
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)
-    },[props.addTask, props.id])
+    }, [props.addTask, props.id])
 
-    const onAllClickHandler = () => props.changeFilter(props.id,'all')
-    const onActiveClickHandler = () => props.changeFilter( props.id,'active')
-    const onCompletedClickHandler = () => props.changeFilter( props.id,'completed')
+    const onAllClickHandler = () => props.changeFilter(props.id, 'all')
+    const onActiveClickHandler = () => props.changeFilter(props.id, 'active')
+    const onCompletedClickHandler = () => props.changeFilter(props.id, 'completed')
     const changeTodoListTitle = (title: string) => props.changeTodoListTitle(title, props.id)
+
+    let tasksForRender = props.tasks
+    if (props.filter === 'active') {
+        tasksForRender = tasksForRender.filter(t => !t.isDone)
+    }
+    if (props.filter === 'completed') {
+        tasksForRender = tasksForRender.filter(t => t.isDone)
+    }
 
     return (
         <div className="todolist">
@@ -70,13 +50,41 @@ const Todolist = (props: TodoListPropsType) => {
             >
                 <EditableSpan title={props.title} setNewTitle={changeTodoListTitle}/>
                 <IconButton onClick={() => props.removeTodoList(props.id)}>
-                        <Delete/>
+                    <Delete/>
                 </IconButton>
 
             </Typography>
             <AddItemForm addItem={addTask}/>
             <List>
-                {tasksJSXElements}
+                {tasksForRender.map(task => {
+                    const removeTask = () => props.removeTask(task.id, props.id)
+                    const changeStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(task.id, e.currentTarget.checked, props.id)
+                    const changeTitle = (title: string) => props.changeTaskTitle(task.id, title, props.id)
+                    return (
+                        <ListItem
+                            disableGutters
+                            divider
+                            className={task.isDone ? 'is-done' : ''}
+                            key={task.id}
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                padding: '0px'
+                            }}>
+                            <Checkbox
+                                size={'small'}
+                                color={'primary'}
+                                onChange={changeStatus}
+                                checked={task.isDone}
+                            />
+
+                            <EditableSpan title={task.title} setNewTitle={changeTitle}/>
+                            <IconButton onClick={removeTask} size={'small'}>
+                                <Delete fontSize={'small'}/>
+                            </IconButton>
+                        </ListItem>
+                    );
+                })}
             </List>
 
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -110,6 +118,4 @@ const Todolist = (props: TodoListPropsType) => {
             </div>
         </div>
     )
-}
-
-export default Todolist;
+});
