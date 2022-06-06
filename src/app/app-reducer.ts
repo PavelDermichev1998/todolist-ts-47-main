@@ -2,7 +2,6 @@ import {Dispatch} from "redux";
 import {authAPI} from "../api/todolists-api";
 import {setIsLoggedInAC} from "../features/Login/auth-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
-import {isInaccessible} from "@testing-library/react";
 
 const initialState: InitialStateType = {
     status: 'idle',

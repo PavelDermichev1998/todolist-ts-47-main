@@ -18,11 +18,8 @@ import {Navigate, Route, Routes} from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import {logoutTC} from "../features/Login/auth-reducer";
 
-type PropsType = {
-    demo?: boolean
-}
 
-function App({demo = false}: PropsType) {
+function App() {
     const dispatch = useDispatch()
     const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
     const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized)
@@ -58,13 +55,12 @@ function App({demo = false}: PropsType) {
                     </Typography>
                     {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Logout</Button>}
 
-
                 </Toolbar>
                 {status === 'loading' && <LinearProgress/>}
             </AppBar>
             <Container fixed>
                 <Routes>
-                    <Route path='/' element={<TodolistsList demo={demo}/>}/>
+                    <Route path='/' element={<TodolistsList/>}/>
                     <Route path='/login' element={<Login/>}/>
                     <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>}/>
                     <Route path="/*" element={<Navigate to='/404'/>}/>
